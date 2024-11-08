@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,6 +75,53 @@ fun App(){
                     .semantics { heading() },
                     style = MaterialTheme.typography.headlineSmall
                 )
+                Column (
+                    modifier = Modifier.align(Alignment.Center) //Alinear la columna al centro de la pantalla
+                    .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
+                ){
+                    Row (
+                        modifier = Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Moneda")
+                    }
+                    Row (
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Casa")
+                    }
+                    Row (
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Nombre")
+                    }
+                    Row (
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Compra")
+                    }
+                    Row (
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Venta")
+                    }
+                    Row (
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text("Fecha actualización")
+                    }
+                }
                 Row (
                     modifier = Modifier.align(Alignment.BottomCenter) //Alinear la Row al centro inferior de la pantalla
                     .fillMaxWidth()
