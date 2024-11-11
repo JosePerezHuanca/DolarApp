@@ -51,6 +51,10 @@ android {
 
 dependencies {
 
+    //retrofit para las peticiones http
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    //converter-gson permite convertir objetos json a objetos java
+    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
