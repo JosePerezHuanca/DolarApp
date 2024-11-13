@@ -1,6 +1,6 @@
 package com.example.dolarapp.model
 
-import java.time.LocalDateTime
+import java.util.Date
 
 
 //Esta clase se basa en la estructura del objeto json
@@ -10,5 +10,5 @@ data class Dolar(
     val nombre: String,
     val compra: Double,
     val venta: Double,
-    val fechaActualizacion: LocalDateTime
+    val fechaActualizacion: Date
 )
