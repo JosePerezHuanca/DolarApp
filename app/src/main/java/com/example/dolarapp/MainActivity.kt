@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,7 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dolarapp.ui.theme.DolarAppTheme
+import com.example.dolarapp.viewmodel.DolarViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +54,13 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(){
+    val  dolarViewModel:DolarViewModel= viewModel()
+    val dolar=dolarViewModel.dolar.observeAsState()
     val itemsOption= listOf("Oficial","Blue","Tarjeta")
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(itemsOption[0]) }
+    //Formateando fecha con simpleDateFormat. EEEE nombre del día de la semana, (Sin mayúsculas muestra abreviado), d número de día(dd para mostrar con ceros), MMMM nombre del mes (MM número del mes y sin mayúsculas minutos) yyyy año, HH hora con formato de 24, hh formato de 12, mm minutos
+    val dateFormat=SimpleDateFormat("EEEE d 'de' MMMM 'del' yyyy HH:mm", Locale.getDefault())
     Scaffold(
         topBar = {
             TopAppBar(
@@ -79,47 +88,55 @@ fun App(){
                     modifier = Modifier.align(Alignment.Center) //Alinear la columna al centro de la pantalla
                     .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
                 ){
-                    Row (
-                        modifier = Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Moneda")
-                    }
-                    Row (
-                        modifier=Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Casa")
-                    }
-                    Row (
-                        modifier=Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Nombre")
-                    }
-                    Row (
-                        modifier=Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Compra")
-                    }
-                    Row (
-                        modifier=Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Venta")
-                    }
-                    Row (
-                        modifier=Modifier.fillMaxWidth()
-                        .padding(24.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Fecha actualización")
+                    dolar.value?.let {
+                        Row (
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Moneda")
+                            Text(it.moneda)
+                        }
+                        Row (
+                            modifier=Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Casa")
+                            Text(it.casa)
+                        }
+                        Row (
+                            modifier=Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Nombre")
+                            Text(it.nombre)
+                        }
+                        Row (
+                            modifier=Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Compra")
+                            Text(it.compra.toString())
+                        }
+                        Row (
+                            modifier=Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Venta")
+                            Text(it.venta.toString())
+                        }
+                        Row (
+                            modifier=Modifier.fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Fecha actualización")
+                            Text(dateFormat.format(it.fechaActualizacion))
+                        }
                     }
                 }
                 Row (
@@ -163,6 +180,7 @@ fun App(){
                     Button(
                         onClick = {
                             //acción consultar
+                            dolarViewModel.getOficial()
                         }
                     ){
                         Text("Consultar")
