@@ -1,5 +1,6 @@
 package com.example.dolarapp.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,8 @@ import kotlinx.coroutines.launch
 class DolarViewModel:ViewModel (){
     private val _dolar = MutableLiveData<Dolar?>()
     val dolar: LiveData<Dolar?> get() = _dolar
+
+    var selected= mutableStateOf("")
 
 
     fun getOficial(){
