@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 fun App(){
     val  dolarViewModel:DolarViewModel= viewModel()
     val dolar=dolarViewModel.dolar.observeAsState()
-    val itemsOption= listOf("Oficial","Blue","Tarjeta")
+    val itemsOption= listOf("Oficial","Blue","Tarjeta","Bolsa","Cripto","CCL","Mayorista")
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(itemsOption[0]) }
     //Formateando fecha con simpleDateFormat. EEEE nombre del día de la semana, (Sin mayúsculas muestra abreviado), d número de día(dd para mostrar con ceros), MMMM nombre del mes (MM número del mes y sin mayúsculas minutos) yyyy año, HH hora con formato de 24, hh formato de 12, mm minutos
@@ -180,7 +180,30 @@ fun App(){
                     Button(
                         onClick = {
                             //acción consultar
-                            dolarViewModel.getOficial()
+                            //When para evaluar la condición de selected y llamar a las acciones del viewModel
+                            when (selected) {
+                                "Blue" -> {
+                                    dolarViewModel.getBlue()
+                                }
+                                "Tarjeta" -> {
+                                    dolarViewModel.getTarjeta()
+                                }
+                                "Bolsa" ->{
+                                    dolarViewModel.getBolsa()
+                                }
+                                "Cripto" ->{
+                                    dolarViewModel.getCripto()
+                                }
+                                "CCL" ->{
+                                    dolarViewModel.getCcl()
+                                }
+                                "Mayorista" ->{
+                                    dolarViewModel.getMayorista()
+                                }
+                                else -> {
+                                    dolarViewModel.getOficial()
+                                }
+                            }
                         }
                     ){
                         Text("Consultar")

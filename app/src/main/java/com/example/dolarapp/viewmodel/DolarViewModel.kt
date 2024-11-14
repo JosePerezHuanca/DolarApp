@@ -24,4 +24,76 @@ class DolarViewModel:ViewModel (){
             }
         }
     }
+
+    fun  getBlue(){
+        viewModelScope.launch {
+            try {
+                val response=Client.apiService.getBlue()
+                _dolar.value=response
+            }
+            catch (e: Exception){
+                _dolar.value=null
+            }
+        }
+    }
+
+    fun getTarjeta(){
+        viewModelScope.launch {
+            try{
+                val response=Client.apiService.getTarjeta()
+                _dolar.value=response
+            }
+            catch (e: Exception){
+                _dolar.value=null
+            }
+        }
+    }
+
+    fun getBolsa(){
+        viewModelScope.launch {
+            try{
+                val response=Client.apiService.getBolsa()
+                _dolar.value=response
+            }
+            catch (e:Exception){
+                _dolar.value=null
+            }
+        }
+    }
+
+    fun getCripto(){
+        viewModelScope.launch {
+            try{
+                val response=Client.apiService.getCripto()
+                _dolar.value=response
+            }
+            catch (e:Exception){
+                _dolar.value=null
+            }
+        }
+    }
+
+    fun getCcl(){
+        viewModelScope.launch {
+            try{
+                val response=Client.apiService.getCcl()
+                _dolar.value=response
+            }
+            catch (e:Exception){
+                _dolar.value=null
+            }
+        }
+    }
+
+    fun getMayorista(){
+        viewModelScope.launch {
+            try{
+                val response=Client.apiService.getMayorista()
+                _dolar.value=response
+            }
+            catch (e:Exception){
+                _dolar.value=null
+            }
+        }
+    }
 }
