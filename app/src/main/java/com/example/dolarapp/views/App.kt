@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -64,140 +65,145 @@ fun App(){
         },
         modifier= Modifier.fillMaxSize()
     ){
-            innerPadding ->
+        innerPadding ->
         Box(
             modifier= Modifier.padding(innerPadding)
-                .fillMaxSize()
+            .fillMaxSize()
         ){
             Text(
                 text = "Cotización del dolar en Argentina",
                 modifier = Modifier.fillMaxWidth()
-                    .semantics { heading() },
+                .semantics { heading() },
                 style = MaterialTheme.typography.headlineSmall
             )
             Column (
                 modifier = Modifier.align(Alignment.Center) //Alinear la columna al centro de la pantalla
-                    .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
+                .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
             ){
                 dolar.value?.let {
                     Row (
                         modifier = Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Moneda")
-                        Text(it.moneda)
+                        //El modifier .weigth sirve para distribuir el espacio disponible de forma proporcional en este caso de los elementos dentro del Row
+                        Text("Moneda",modifier = Modifier.weight(1f))
+                        Text(it.moneda, modifier = Modifier.weight(2f))
                     }
                     Row (
                         modifier= Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Casa")
-                        Text(it.casa)
+                        Text("Casa", modifier = Modifier.weight(1f))
+                        Text(it.casa, modifier = Modifier.weight(2f))
                     }
                     Row (
                         modifier= Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Nombre")
-                        Text(it.nombre)
+                        Text("Nombre", modifier = Modifier.weight(1f))
+                        Text(it.nombre, modifier = Modifier.weight(2f))
                     }
                     Row (
                         modifier= Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Compra")
-                        Text(it.compra.toString())
+                        Text("Compra", modifier = Modifier.weight(1f))
+                        Text(it.compra.toString(), modifier = Modifier.weight(2f))
                     }
                     Row (
                         modifier= Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Venta")
-                        Text(it.venta.toString())
+                        Text("Venta", modifier = Modifier.weight(1f))
+                        Text(it.venta.toString(), modifier = Modifier.weight(2f))
                     }
                     Row (
                         modifier= Modifier.fillMaxWidth()
-                            .padding(24.dp),
+                        .padding(8.dp),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text("Fecha actualización")
-                        Text(dateFormat.format(it.fechaActualizacion))
+                        Text("Fecha actualización",modifier = Modifier.weight(1f))
+                        Text(dateFormat.format(it.fechaActualizacion),modifier = Modifier.weight(2f))
                     }
                 }
+                Spacer(modifier = Modifier.weight(1f)) //Espacio entre el contenido de Column y el Row con los botones
             }
-            Row (
-                modifier = Modifier.align(Alignment.BottomCenter) //Alinear la Row al centro inferior de la pantalla
-                    .fillMaxWidth()
-                    .padding(bottom =64.dp), //Padding de 64 dp para suvir la Row
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                modifier = Modifier.align(Alignment.BottomCenter)
+                .padding(bottom = 64.dp, end = 64.dp)
             ){
-                Button(
-                    onClick = {
-                        //Acción dropdown
-                        dropdownExpanded=true
-                    }
+                Row (
+                    modifier = Modifier.fillMaxWidth()
+                    .padding(8.dp),
+                    horizontalArrangement = Arrangement.Center
                 ){
-                    Text(selected)
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Menú",
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
-                DropdownMenu(
-                    expanded = dropdownExpanded,
-                    onDismissRequest = {
-                        dropdownExpanded=false
-                    }
-                ){
-                    for(option in itemsOption){
-                        DropdownMenuItem(
-                            text = {
-                                Text(option)
-                            },
-                            onClick = {
-                                selected=option
-                                dropdownExpanded=false
-                            }
+                    Button(
+                        onClick = {
+                            //Acción dropdown
+                            dropdownExpanded=true
+                        }
+                    ){
+                        Text(selected)
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "Menú",
+                            modifier = Modifier.padding(start = 8.dp)
                         )
                     }
-                }
-                Button(
-                    onClick = {
-                        //acción consultar
-                        //When para evaluar la condición de selected y llamar a las acciones del viewModel
-                        when (selected) {
-                            "Blue" -> {
-                                dolarViewModel.getBlue()
-                            }
-                            "Tarjeta" -> {
-                                dolarViewModel.getTarjeta()
-                            }
-                            "Bolsa" ->{
-                                dolarViewModel.getBolsa()
-                            }
-                            "Cripto" ->{
-                                dolarViewModel.getCripto()
-                            }
-                            "CCL" ->{
-                                dolarViewModel.getCcl()
-                            }
-                            "Mayorista" ->{
-                                dolarViewModel.getMayorista()
-                            }
-                            else -> {
-                                dolarViewModel.getOficial()
-                            }
+                    DropdownMenu(
+                        expanded = dropdownExpanded,
+                        onDismissRequest = {
+                            dropdownExpanded=false
+                        }
+                    ){
+                        for(option in itemsOption){
+                            DropdownMenuItem(
+                                text = {
+                                    Text(option)
+                                },
+                                onClick = {
+                                    selected=option
+                                    dropdownExpanded=false
+                                }
+                            )
                         }
                     }
-                ){
-                    Text("Consultar")
+                    Button(
+                        onClick = {
+                            //acción consultar
+                            //When para evaluar la condición de selected y llamar a las acciones del viewModel
+                            when (selected) {
+                                "Blue" -> {
+                                    dolarViewModel.getBlue()
+                                }
+                                "Tarjeta" -> {
+                                    dolarViewModel.getTarjeta()
+                                }
+                                "Bolsa" ->{
+                                    dolarViewModel.getBolsa()
+                                }
+                                "Cripto" ->{
+                                    dolarViewModel.getCripto()
+                                }
+                                "CCL" ->{
+                                    dolarViewModel.getCcl()
+                                }
+                                "Mayorista" ->{
+                                    dolarViewModel.getMayorista()
+                                }
+                                else -> {
+                                    dolarViewModel.getOficial()
+                                }
+                            }
+                        }
+                    ){
+                        Text("Consultar")
+                    }
                 }
             }
         }
