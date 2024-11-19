@@ -41,7 +41,7 @@ import java.util.Locale
 fun App(){
     val  dolarViewModel: DolarViewModel = viewModel()
     val dolar=dolarViewModel.dolar.observeAsState()
-    val itemsOption= listOf("Oficial","Blue","Tarjeta","Bolsa","Cripto","CCL","Mayorista")
+    val itemsOption= listOf("Oficial","Blue","Tarjeta","Bolsa","Cripto","Contado con liquidación","Mayorista")
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selected by dolarViewModel.selected
     //Acción que se ba a ejecutar cuando se cree la pantalla
@@ -190,7 +190,7 @@ fun App(){
                                 "Cripto" ->{
                                     dolarViewModel.getCripto()
                                 }
-                                "CCL" ->{
+                                "Contado con liquidación" ->{
                                     dolarViewModel.getCcl()
                                 }
                                 "Mayorista" ->{
