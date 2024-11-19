@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,6 +45,7 @@ fun App(){
     val itemsOption= listOf("Oficial","Blue","Tarjeta","Bolsa","Cripto","Contado con liquidación","Mayorista")
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selected by dolarViewModel.selected
+    val loading by dolarViewModel.loading
     //Acción que se ba a ejecutar cuando se cree la pantalla
     LaunchedEffect(Unit) {
         if(selected.isEmpty()){
@@ -80,55 +82,60 @@ fun App(){
                 modifier = Modifier.align(Alignment.Center) //Alinear la columna al centro de la pantalla
                 .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
             ){
-                dolar.value?.let {
-                    Row (
-                        modifier = Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        //El modifier .weigth sirve para distribuir el espacio disponible de forma proporcional en este caso de los elementos dentro del Row
-                        Text("Moneda",modifier = Modifier.weight(1f))
-                        Text(it.moneda, modifier = Modifier.weight(2f))
-                    }
-                    Row (
-                        modifier= Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Casa", modifier = Modifier.weight(1f))
-                        Text(it.casa, modifier = Modifier.weight(2f))
-                    }
-                    Row (
-                        modifier= Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Nombre", modifier = Modifier.weight(1f))
-                        Text(it.nombre, modifier = Modifier.weight(2f))
-                    }
-                    Row (
-                        modifier= Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Compra", modifier = Modifier.weight(1f))
-                        Text(it.compra.toString(), modifier = Modifier.weight(2f))
-                    }
-                    Row (
-                        modifier= Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Venta", modifier = Modifier.weight(1f))
-                        Text(it.venta.toString(), modifier = Modifier.weight(2f))
-                    }
-                    Row (
-                        modifier= Modifier.fillMaxWidth()
-                        .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        Text("Fecha actualización",modifier = Modifier.weight(1f))
-                        Text(dateFormat.format(it.fechaActualizacion),modifier = Modifier.weight(2f))
+                if(loading){
+                    CircularProgressIndicator()
+                }
+                else{
+                    dolar.value?.let {
+                        Row (
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            //El modifier .weigth sirve para distribuir el espacio disponible de forma proporcional en este caso de los elementos dentro del Row
+                            Text("Moneda",modifier = Modifier.weight(1f))
+                            Text(it.moneda, modifier = Modifier.weight(2f))
+                        }
+                        Row (
+                            modifier= Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Casa", modifier = Modifier.weight(1f))
+                            Text(it.casa, modifier = Modifier.weight(2f))
+                        }
+                        Row (
+                            modifier= Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Nombre", modifier = Modifier.weight(1f))
+                            Text(it.nombre, modifier = Modifier.weight(2f))
+                        }
+                        Row (
+                            modifier= Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Compra", modifier = Modifier.weight(1f))
+                            Text(it.compra.toString(), modifier = Modifier.weight(2f))
+                        }
+                        Row (
+                            modifier= Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Venta", modifier = Modifier.weight(1f))
+                            Text(it.venta.toString(), modifier = Modifier.weight(2f))
+                        }
+                        Row (
+                            modifier= Modifier.fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text("Fecha actualización",modifier = Modifier.weight(1f))
+                            Text(dateFormat.format(it.fechaActualizacion),modifier = Modifier.weight(2f))
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f)) //Espacio entre el contenido de Column y el Row con los botones

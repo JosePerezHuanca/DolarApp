@@ -14,13 +14,16 @@ class DolarViewModel:ViewModel (){
     val dolar: LiveData<Dolar?> get() = _dolar
 
     var selected= mutableStateOf("")
+    var loading=mutableStateOf(false)
 
 
     fun getOficial(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getOficial()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e:Exception){
                 _dolar.value=null
@@ -29,10 +32,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun  getBlue(){
+        loading.value=true
         viewModelScope.launch {
             try {
                 val response=Client.apiService.getBlue()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e: Exception){
                 _dolar.value=null
@@ -41,10 +46,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun getTarjeta(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getTarjeta()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e: Exception){
                 _dolar.value=null
@@ -53,10 +60,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun getBolsa(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getBolsa()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e:Exception){
                 _dolar.value=null
@@ -65,10 +74,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun getCripto(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getCripto()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e:Exception){
                 _dolar.value=null
@@ -77,10 +88,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun getCcl(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getCcl()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e:Exception){
                 _dolar.value=null
@@ -89,10 +102,12 @@ class DolarViewModel:ViewModel (){
     }
 
     fun getMayorista(){
+        loading.value=true
         viewModelScope.launch {
             try{
                 val response=Client.apiService.getMayorista()
                 _dolar.value=response
+                loading.value=false
             }
             catch (e:Exception){
                 _dolar.value=null
