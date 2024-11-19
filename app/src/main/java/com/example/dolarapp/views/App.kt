@@ -1,5 +1,6 @@
 package com.example.dolarapp.views
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
@@ -83,7 +86,20 @@ fun App(){
                 .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
             ){
                 if(loading){
-                    CircularProgressIndicator()
+                    Box(
+                        modifier=Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ){
+                        CircularProgressIndicator(
+                            modifier=Modifier
+                            .size(56.dp)
+                            .background(MaterialTheme.colorScheme.surface, shape = CircleShape),
+                            color = MaterialTheme.colorScheme.primary, // Color consistente con el tema
+                            strokeWidth = 4.dp
+                        )
+                    }
                 }
                 else{
                     dolar.value?.let {
@@ -185,27 +201,13 @@ fun App(){
                             //acción consultar
                             //When para evaluar la condición de selected y llamar a las acciones del viewModel
                             when (selected) {
-                                "Blue" -> {
-                                    dolarViewModel.getBlue()
-                                }
-                                "Tarjeta" -> {
-                                    dolarViewModel.getTarjeta()
-                                }
-                                "Bolsa" ->{
-                                    dolarViewModel.getBolsa()
-                                }
-                                "Cripto" ->{
-                                    dolarViewModel.getCripto()
-                                }
-                                "Contado con liquidación" ->{
-                                    dolarViewModel.getCcl()
-                                }
-                                "Mayorista" ->{
-                                    dolarViewModel.getMayorista()
-                                }
-                                else -> {
-                                    dolarViewModel.getOficial()
-                                }
+                                "Blue" -> dolarViewModel.getBlue()
+                                "Tarjeta" -> dolarViewModel.getTarjeta()
+                                "Bolsa" -> dolarViewModel.getBolsa()
+                                "Cripto" -> dolarViewModel.getCripto()
+                                "Contado con liquidación" -> dolarViewModel.getCcl()
+                                "Mayorista" -> dolarViewModel.getMayorista()
+                                else -> dolarViewModel.getOficial()
                             }
                         }
                     ){
