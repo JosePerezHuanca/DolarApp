@@ -16,9 +16,11 @@ class DolarViewModel:ViewModel () {
     var dropdownExpanded = mutableStateOf(false)
     var selected = mutableStateOf("")
     var loading = mutableStateOf(false)
+    var errorMessage= mutableStateOf(false)
 
     fun getDolar(type: String) {
         loading.value = true
+        errorMessage.value=false
         viewModelScope.launch {
             try {
                 //When para evaluar la condición de type y llamar a las acciones de Client
@@ -35,6 +37,8 @@ class DolarViewModel:ViewModel () {
                 loading.value = false
             } catch (e: Exception) {
                 _dolar.value = null
+                loading.value=false
+                errorMessage.value=true
             }
         }
     }

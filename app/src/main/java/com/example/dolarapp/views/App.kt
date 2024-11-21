@@ -47,6 +47,7 @@ fun App(){
     var dropdownExpanded by dolarViewModel.dropdownExpanded
     var selected by dolarViewModel.selected
     val loading by dolarViewModel.loading
+    val error by dolarViewModel.errorMessage
     //Acción que se ba a ejecutar cuando se cree la pantalla
     LaunchedEffect(Unit) {
         if(selected.isEmpty()){
@@ -96,6 +97,19 @@ fun App(){
                             .background(MaterialTheme.colorScheme.surface, shape = CircleShape),
                             color = MaterialTheme.colorScheme.primary, // Color consistente con el tema
                             strokeWidth = 4.dp
+                        )
+                    }
+                }
+                else if(error){
+                    Box(
+                        modifier=Modifier.fillMaxWidth()
+                        .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = "Hubo un error al obtener los datos.",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
                 }
@@ -198,9 +212,14 @@ fun App(){
                         onClick = {
                             //acción consultar
                             dolarViewModel.getDolar(selected)
-                        }
+                        },
+                        //Desavilitar el botón mientras se obtienen los datos
+                        enabled = !loading
                     ){
-                        Text("Consultar")
+                        Text(
+                            if(error) "Reintentar"
+                            else "Consultar"
+                        )
                     }
                 }
             }
