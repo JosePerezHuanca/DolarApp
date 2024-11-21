@@ -27,8 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +44,7 @@ fun App(){
     val  dolarViewModel: DolarViewModel = viewModel()
     val dolar=dolarViewModel.dolar.observeAsState()
     val itemsOption= listOf("Oficial","Blue","Tarjeta","Bolsa","Cripto","Contado con liquidación","Mayorista")
-    var dropdownExpanded by remember { mutableStateOf(false) }
+    var dropdownExpanded by dolarViewModel.dropdownExpanded
     var selected by dolarViewModel.selected
     val loading by dolarViewModel.loading
     //Acción que se ba a ejecutar cuando se cree la pantalla
@@ -199,16 +197,7 @@ fun App(){
                     Button(
                         onClick = {
                             //acción consultar
-                            //When para evaluar la condición de selected y llamar a las acciones del viewModel
-                            when (selected) {
-                                "Blue" -> dolarViewModel.getBlue()
-                                "Tarjeta" -> dolarViewModel.getTarjeta()
-                                "Bolsa" -> dolarViewModel.getBolsa()
-                                "Cripto" -> dolarViewModel.getCripto()
-                                "Contado con liquidación" -> dolarViewModel.getCcl()
-                                "Mayorista" -> dolarViewModel.getMayorista()
-                                else -> dolarViewModel.getOficial()
-                            }
+                            dolarViewModel.getDolar(selected)
                         }
                     ){
                         Text("Consultar")

@@ -9,108 +9,32 @@ import com.example.dolarapp.model.Dolar
 import com.example.dolarapp.network.Client
 import kotlinx.coroutines.launch
 
-class DolarViewModel:ViewModel (){
+class DolarViewModel:ViewModel () {
     private val _dolar = MutableLiveData<Dolar?>()
     val dolar: LiveData<Dolar?> get() = _dolar
 
-    var selected= mutableStateOf("")
-    var loading=mutableStateOf(false)
+    var dropdownExpanded = mutableStateOf(false)
+    var selected = mutableStateOf("")
+    var loading = mutableStateOf(false)
 
-
-    fun getOficial(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getOficial()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e:Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun  getBlue(){
-        loading.value=true
+    fun getDolar(type: String) {
+        loading.value = true
         viewModelScope.launch {
             try {
-                val response=Client.apiService.getBlue()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e: Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun getTarjeta(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getTarjeta()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e: Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun getBolsa(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getBolsa()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e:Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun getCripto(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getCripto()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e:Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun getCcl(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getCcl()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e:Exception){
-                _dolar.value=null
-            }
-        }
-    }
-
-    fun getMayorista(){
-        loading.value=true
-        viewModelScope.launch {
-            try{
-                val response=Client.apiService.getMayorista()
-                _dolar.value=response
-                loading.value=false
-            }
-            catch (e:Exception){
-                _dolar.value=null
+                //When para evaluar la condición de type y llamar a las acciones de Client
+                val response = when (type) {
+                    "Blue" -> Client.apiService.getBlue()
+                    "Tarjeta" -> Client.apiService.getTarjeta()
+                    "Bolsa" -> Client.apiService.getBolsa()
+                    "Cripto" -> Client.apiService.getCripto()
+                    "Contado con liquidación" -> Client.apiService.getCcl()
+                    "Mayorista" -> Client.apiService.getMayorista()
+                    else -> Client.apiService.getOficial()
+                }
+                _dolar.value = response
+                loading.value = false
+            } catch (e: Exception) {
+                _dolar.value = null
             }
         }
     }
