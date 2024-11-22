@@ -33,9 +33,12 @@ class DolarViewModel:ViewModel () {
                     "Mayorista" -> Client.apiService.getMayorista()
                     else -> Client.apiService.getOficial()
                 }
-                _dolar.value = response
-                loading.value = false
-            } catch (e: Exception) {
+                if(response.isSuccessful){
+                    _dolar.value = response.body()
+                    loading.value = false
+                }
+            }
+            catch (e: Exception) {
                 _dolar.value = null
                 loading.value=false
                 errorMessage.value=true
