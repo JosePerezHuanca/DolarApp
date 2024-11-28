@@ -14,7 +14,7 @@ class DolarViewModel:ViewModel () {
     val dolar: LiveData<Dolar?> get() = _dolar
 
     var dropdownExpanded = mutableStateOf(false)
-    var selected = mutableStateOf("")
+    var selected = mutableStateOf("Oficial")
     var loading = mutableStateOf(false)
     var errorMessage= mutableStateOf(false)
 

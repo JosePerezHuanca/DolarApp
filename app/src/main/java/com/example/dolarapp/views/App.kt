@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
@@ -48,13 +47,7 @@ fun App(){
     var selected by dolarViewModel.selected
     val loading by dolarViewModel.loading
     val error by dolarViewModel.errorMessage
-    //Acción que se ba a ejecutar cuando se cree la pantalla
-    LaunchedEffect(Unit) {
-        if(selected.isEmpty()){
-            //Inicializar selected con el primer indice de la lista
-            dolarViewModel.selected.value=itemsOption[0]
-        }
-    }
+
     //Formateando fecha con simpleDateFormat. EEEE nombre del día de la semana, (Sin mayúsculas muestra abreviado), d número de día(dd para mostrar con ceros), MMMM nombre del mes (MM número del mes y sin mayúsculas minutos) yyyy año, HH hora con formato de 24, hh formato de 12, mm minutos
     val dateFormat= SimpleDateFormat("EEEE d 'de' MMMM 'del' yyyy HH:mm", Locale.getDefault())
     Scaffold(
@@ -72,7 +65,6 @@ fun App(){
         innerPadding ->
         Box(
             modifier= Modifier.padding(innerPadding)
-            .fillMaxSize()
         ){
             Text(
                 text = "Cotización del dolar en Argentina",
@@ -82,7 +74,7 @@ fun App(){
             )
             Column (
                 modifier = Modifier.align(Alignment.Center) //Alinear la columna al centro de la pantalla
-                .padding(end=64.dp) //Espaciado a la derecha para mover la columna a la izquierda
+                .fillMaxSize()
             ){
                 if(loading){
                     Box(
@@ -170,7 +162,7 @@ fun App(){
             }
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
-                .padding(bottom = 64.dp, end = 64.dp)
+                .padding(bottom = 64.dp)
             ){
                 Row (
                     modifier = Modifier.fillMaxWidth()
